@@ -1,0 +1,29 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+# DB
+  datasource:
+    url: jdbc:mysql://localhost:3306/joo?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: root
+    password: 20182229
+  main:
+    lazy-initialization: true
+
+
+server:
+  port: 8510  # 프로덕션 환경에서 사용할 포트
+
+# eureka 설정
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://admin:1234@localhost:8310/eureka
+  instance:
+    prefer-ip-address: true
