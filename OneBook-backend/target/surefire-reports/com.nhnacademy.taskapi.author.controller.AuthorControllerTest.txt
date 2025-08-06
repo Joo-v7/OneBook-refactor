@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.nhnacademy.taskapi.author.controller.AuthorControllerTest
--------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.26 s - in com.nhnacademy.taskapi.author.controller.AuthorControllerTest
