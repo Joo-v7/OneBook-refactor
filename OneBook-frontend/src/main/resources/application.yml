@@ -8,11 +8,11 @@ spring:
         enabled: true
   data:
     redis:
-      host: 220.67.216.14
+      host: localhost
       port: 6379
-      password: '*N2vya7H@muDTwdNMR!'
-      default_db: 201
-      cart_db: 202
+      password:
+      default_db: 1
+      cart_db: 2
 
 server:
   port: 8100
