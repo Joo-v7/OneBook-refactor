@@ -1,6 +1,8 @@
 package com.onebook.frontapi.config.advice;
 
+import com.onebook.frontapi.aop.TimeTrace;
 import com.onebook.frontapi.dto.category.CategoryDTO;
+import com.onebook.frontapi.dto.category.CategoryResponseDto;
 import com.onebook.frontapi.service.category.CategoryService;
 import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
@@ -29,12 +31,22 @@ public class GlobalControllerAdvice {
 
     private final CategoryService categoryService;
 
-//    // 모든 요청에서 topCategories를 자동으로 추가
+    // 모든 요청에서 topCategories를 자동으로 추가
 //    @ModelAttribute("topCategories")
 //    public List<CategoryDTO> getTopCategories() {
 //        List<CategoryDTO> categories = categoryService.getTopCategories();
 //        return categories;
 //    }
+
+    /**
+     * 리팩토링
+     * @return
+     */
+    @ModelAttribute("topCategories")
+    public List<CategoryResponseDto> getTopCategories() {
+        List<CategoryResponseDto> categories = categoryService.getTopCategories();
+        return categories;
+    }
 
 
     @ModelAttribute(name="cartProductCounting")

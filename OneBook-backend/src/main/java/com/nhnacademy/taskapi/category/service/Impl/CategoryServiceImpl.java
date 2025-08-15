@@ -7,6 +7,7 @@ import com.nhnacademy.taskapi.book.repository.BookCategoryRepository;
 import com.nhnacademy.taskapi.book.service.BookCategoryService;
 import com.nhnacademy.taskapi.category.domain.Category;
 import com.nhnacademy.taskapi.category.dto.CategoryCreateDTO;
+import com.nhnacademy.taskapi.category.dto.CategoryResponseDto;
 import com.nhnacademy.taskapi.category.dto.CategoryUpdateDTO;
 import com.nhnacademy.taskapi.category.exception.CategoryNameDuplicateException;
 import com.nhnacademy.taskapi.category.exception.CategoryNotFoundException;
@@ -20,7 +21,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -119,12 +122,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> getTopLevelCategories() {
-        return categoryRepository.findTopLevelCategories();
+        return categoryRepository.findRootCategories();
     }
     @Override
     public List<Category> getSubCategories(int categoryId) {
-        Category category = getCategory(categoryId);
-        return categoryRepository.findByParentCategory(category);
+//        Category category = getCategory(categoryId);
+//        return categoryRepository.findByParentCategory(category);
+        return categoryRepository.findByParentId(categoryId);
     }
 
 
@@ -132,4 +136,55 @@ public class CategoryServiceImpl implements CategoryService {
     public Page<Category> getAllCategoriesByPaging(Pageable pageable){
         return categoryRepository.findAll(pageable);
     }
+
+    @Override
+    public List<CategoryResponseDto> getCategoryTree() {
+        List<Category> roots = categoryRepository.findRootCategories();
+        return roots.stream()
+                .map(this::buildTree)
+                .collect(Collectors.toList());
+    }
+
+    private CategoryResponseDto buildTree(Category category) {
+        List<Category> children = categoryRepository.findByParentId(category.getCategoryId());
+
+        return new CategoryResponseDto(
+                category.getCategoryId(),
+                category.getName(),
+                category.isStatus(),
+                children.stream()
+                        .map(this::buildTree)
+                        .collect(Collectors.toList())
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public List<CategoryResponseDto> getCategoryTree2() {
+        List<Category> all = categoryRepository.findAll();
+
+        Map<Integer, List<Category>> childrenMap = all.stream()
+                .filter(c -> c.getParentCategory() != null)
+                .collect(Collectors.groupingBy(c -> c.getParentCategory().getCategoryId()));
+
+        List<Category> roots = all.stream()
+                .filter(c -> c.getParentCategory() == null)
+                .collect(Collectors.toList());
+
+        return roots.stream()
+                .map(root -> toDto(root, childrenMap))
+                .collect(Collectors.toList());
+    }
+
+    private CategoryResponseDto toDto(Category category, Map<Integer, List<Category>> childrenMap) {
+        List<Category> children = childrenMap.getOrDefault(category.getCategoryId(), List.of());
+        return new CategoryResponseDto(
+                category.getCategoryId(),
+                category.getName(),
+                category.isStatus(),
+                children.stream()
+                        .map(child -> toDto(child, childrenMap))
+                        .collect(Collectors.toList())
+        );
+    }
+
 }

@@ -2,6 +2,7 @@ package com.onebook.frontapi.feign.category;
 
 
 import com.onebook.frontapi.dto.category.CategoryDTO;
+import com.onebook.frontapi.dto.category.CategoryResponseDto;
 import com.onebook.frontapi.dto.category.CategoryUpdateDTO;
 import com.onebook.frontapi.dto.category.CreateCategoryDTO;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -37,5 +38,8 @@ public interface CategoryClient {
 
     @GetMapping("/task/categories/list")
     Page<CategoryDTO> listCategories(Pageable pageable);
+
+    @GetMapping("/task/categories/header")
+    List<CategoryResponseDto> getCategoriesHeader();
 
 }

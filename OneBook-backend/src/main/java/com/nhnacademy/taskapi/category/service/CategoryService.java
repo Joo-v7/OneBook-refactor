@@ -2,6 +2,7 @@ package com.nhnacademy.taskapi.category.service;
 
 import com.nhnacademy.taskapi.category.domain.Category;
 import com.nhnacademy.taskapi.category.dto.CategoryCreateDTO;
+import com.nhnacademy.taskapi.category.dto.CategoryResponseDto;
 import com.nhnacademy.taskapi.category.dto.CategoryUpdateDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,4 +20,6 @@ public interface CategoryService {
     List<Category> getTopLevelCategories();
     List<Category> getSubCategories(int categoryId);
     Page<Category> getAllCategoriesByPaging(Pageable pageable);
+    List<CategoryResponseDto> getCategoryTree();
+    List<CategoryResponseDto> getCategoryTree2();
 }
