@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,10 +24,12 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int categoryId;
 
-    @ManyToOne(optional = true)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_parent_id")
     private Category parentCategory;
 
+    @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY)
+    private List<Category> childrenCategory = new ArrayList<>();
 
     @NotBlank
     @Length(max = 20)
@@ -31,4 +37,15 @@ public class Category {
     private String name;
 
     private boolean status = false;
+
+    // 4개짜리 생성자 추가
+    public Category(int categoryId, Category parentCategory, String name, boolean status) {
+        this.categoryId = categoryId;
+        this.parentCategory = parentCategory;
+        this.childrenCategory = Collections.emptyList();
+        this.name = name;
+        this.status = status;
+    }
 }
+
+
