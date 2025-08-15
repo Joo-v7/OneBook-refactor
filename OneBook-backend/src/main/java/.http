@@ -1,0 +1,49 @@
+### top categories 조회
+GET http://localhost:8500/task/categories/topCategories
+Content-Type: application/json
+
+### sub categories 조회
+GET http://localhost:8500/task/categories/subCategories/1
+Content-Type: application/json
+
+### 기존구조 1차개선 - 카테고리 전체 트리 조회
+GET http://localhost:8500/task/categories/tree
+Content-Type: application/json
+
+
+### 기존구조 2차개선 - 카테고리 전체 트리 조회
+GET http://localhost:8500/task/categories/tree2
+Content-Type: application/json
+
+### [READ] 국내도서(15) 트리 조회
+GET http://localhost:8500/task/categories/closure/tree/15
+Content-Type: application/json
+
+### [READ] 해외도서(18) 트리 조회
+GET http://localhost:8500/task/categories/closure/tree/18
+Content-Type: application/json
+
+### [MOVE] 유럽여행(17)을 해외도서(18) 밑으로 이동
+PUT http://localhost:8500/task/categories/closure/move
+Content-Type: application/json
+
+{
+  "nodeId": 17,
+  "newParentId": 15
+}
+
+### [READ] 이동 후 국내도서(15) 트리 확인 (유럽여행 없어야 함)
+GET http://localhost:8500/task/categories/closure/tree/15
+Content-Type: application/json
+
+### [READ] 이동 후 해외도서(18) 트리 확인 (유럽여행 생겨야 함)
+GET http://localhost:8500/task/categories/closure/tree/18
+Content-Type: application/json
+
+### [DELETE] 여행(16) 서브트리 전체 삭제
+DELETE http://localhost:8500/task/categories/closure/subtree/16
+Content-Type: application/json
+
+### [READ] 삭제 후 국내도서(15) 트리 확인
+GET http://localhost:8500/task/categories/closure/tree/15
+Content-Type: application/json
