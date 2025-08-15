@@ -137,47 +137,26 @@
                                     <div class="nav-inner">
                                         <ul class="nav main-menu menu navbar-nav">
                                             <li class="active"><a href="/">Home</a></li>
-                                            <li th:each="category : ${topCategories}" th:if="${category.status == false}" class="dropdown">
-                                                <!-- 상위 카테고리 클릭 시 categoryId를 URL에 포함시켜 전달 -->
-                                                <a th:href="@{/book-categories?categoryId={categoryId}(categoryId=${category.categoryId})}"
-                                                   th:text="${category.name}">
-                                                </a>
 
-                                                <!-- 하위 카테고리들 -->
-                                                <ul th:if="${category.subCategories != null}" class="dropdown-menu">
-                                                    <li th:each="subCategory : ${category.subCategories}" th:if="${subCategory.status == false}">
-                                                        <!-- 서브카테고리 클릭 시 subCategory의 categoryId를 URL에 포함시켜 전달 -->
-                                                        <a th:href="@{/book-categories?categoryId={categoryId}(categoryId=${subCategory.categoryId})}"
-                                                           th:text="${subCategory.name}">
-                                                        </a>
+                                            <!-- 루트 카테고리 -->
+                                            <li th:each="category : ${topCategories}"
+                                                th:if="${!category.status}"
+                                                class="dropdown">
+
+                                                <!-- 루트 클릭 시 -->
+                                                <a th:href="@{/book-categories(categoryId=${category.id})}"
+                                                   th:text="${category.name}"></a>
+
+                                                <!-- 직계 자식 드롭다운 -->
+                                                <ul th:if="${category.children != null and !#lists.isEmpty(category.children)}"
+                                                    class="dropdown-menu">
+                                                    <li th:each="subCategory : ${category.children}"
+                                                        th:if="${!subCategory.status}">
+                                                        <a th:href="@{/book-categories(categoryId=${subCategory.id})}"
+                                                           th:text="${subCategory.name}"></a>
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <!--                                            &lt;!&ndash; 카테고리 등록 버튼 &ndash;&gt;-->
-                                            <!--                                            <li>-->
-                                            <!--                                                <a th:href="@{/categories/create(categoryId=${categoryId})}" class="btn btn-primary">카테고리 등록</a>-->
-                                            <!--                                            </li>-->
-
-                                            <!--                                            <li>-->
-                                            <!--                                                <a th:href="@{/categories/updateForm(categoryId=${categoryId})}" class="btn btn-primary">카테고리 수정/삭제</a>-->
-                                            <!--                                            </li>-->
-                                            <!--                                            &lt;!&ndash; 태그 등록 버튼 &ndash;&gt;-->
-                                            <!--                                            <li>-->
-                                            <!--                                                <a th:href="@{/tags}" class="btn btn-primary">태그 등록</a>-->
-                                            <!--                                            </li>-->
-
-                                            <!--                                            <li>-->
-                                            <!--                                                <a th:href="@{/tags/list}" class="btn btn-primary">태그 수정/삭제</a>-->
-                                            <!--                                            </li>-->
-
-                                            <!--                                            &lt;!&ndash; 책 등록 버튼 &ndash;&gt;-->
-                                            <!--                                            <li>-->
-                                            <!--                                                <a th:href="@{/book(categoryId=${categoryId})}" class="btn btn-primary">책 등록</a>-->
-                                            <!--                                            </li>-->
-
-                                            <!--                                            <li>-->
-                                            <!--                                                <a th:href="@{/book/book-list}" class="btn btn-primary">책 수정/삭제</a>-->
-                                            <!--                                            </li>-->
                                         </ul>
 
                                     </div>
