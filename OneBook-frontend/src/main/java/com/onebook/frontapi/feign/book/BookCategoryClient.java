@@ -2,6 +2,7 @@ package com.onebook.frontapi.feign.book;
 
 import com.onebook.frontapi.dto.book.BookAuthorDTO;
 import com.onebook.frontapi.dto.book.BookCategoryDTO;
+import com.onebook.frontapi.dto.category.CategoryResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,4 +20,8 @@ public interface BookCategoryClient {
 
     @GetMapping("/task/book/category/{bookId}")
     BookCategoryDTO getBookCategory(@PathVariable Long bookId);
+
+    // 사이드 카테고리
+    @GetMapping("/task/book/category/book-categories/sidebar/{categoryId}")
+    CategoryResponseDto getCategorySidebar(@PathVariable Long categoryId);
 }

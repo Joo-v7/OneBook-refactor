@@ -2,6 +2,7 @@ package com.onebook.frontapi.controller.book;
 
 import com.onebook.frontapi.dto.author.AuthorDTO;
 import com.onebook.frontapi.dto.book.BookCategoryDTO;
+import com.onebook.frontapi.dto.category.CategoryResponseDto;
 import com.onebook.frontapi.service.book.BookCategoryService;
 import com.onebook.frontapi.service.book.BookService;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +30,10 @@ public class BookCategoryController {
                                      Model model) {
 
         Page<BookCategoryDTO> books = bookCategoryService.getAllBookCategories(categoryId, PageRequest.of(page, 20));
+        CategoryResponseDto categoryResponseDto = bookCategoryService.getCategorySidebarByCategoryId(categoryId);
         model.addAttribute("bookList", books);
         model.addAttribute("categoryId", categoryId);
+        model.addAttribute("categorySidebar", categoryResponseDto);
         return "book/bookList";
     }
 

@@ -99,4 +99,18 @@ public interface CategoryClosureRepository extends JpaRepository<CategoryClosure
     order by r.name asc, c.name asc
     """, nativeQuery = true)
     List<Object[]> findHeaderCategories();
+
+    // 선택한 카테고리의 직계 상위 (루트의 자식) 찾기
+    @Query(value = """
+    select a.category_id
+    from category_closure cc
+    join categories a on a.category_id = cc.ancestor_id
+    join categories p on p.category_id = a.category_parent_id
+    where cc.descendant_id = :cid
+      and p.category_parent_id is null   -- a의 부모가 루트
+    order by cc.depth asc                -- 가장 가까운 애(=실제 직계)를 먼저
+    limit 1
+    """, nativeQuery = true)
+    Integer findTopChildAncestorId(@Param("cid") int categoryId);
+
 }

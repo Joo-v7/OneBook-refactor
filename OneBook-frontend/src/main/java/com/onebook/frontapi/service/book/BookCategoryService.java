@@ -1,6 +1,7 @@
 package com.onebook.frontapi.service.book;
 
 import com.onebook.frontapi.dto.book.BookCategoryDTO;
+import com.onebook.frontapi.dto.category.CategoryResponseDto;
 import com.onebook.frontapi.feign.book.BookCategoryClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,5 +21,10 @@ public class BookCategoryService {
 
     public BookCategoryDTO getBookCategoryByBookId(long bookId) {
         return bookCategoryClient.getBookCategory(bookId);
+    }
+
+    // 카테고리 사이드바
+    public CategoryResponseDto getCategorySidebarByCategoryId(long categoryId) {
+        return bookCategoryClient.getCategorySidebar(categoryId);
     }
 }

@@ -47,3 +47,8 @@ Content-Type: application/json
 ### [READ] 삭제 후 국내도서(15) 트리 확인
 GET http://localhost:8500/task/categories/closure/tree/15
 Content-Type: application/json
+
+### [READ] 카테고리 사이드바 조회
+GET http://localhost:8500/task/book/category/book-categories/sidebar/171
+Content-Type: application/json
+

@@ -57,6 +57,7 @@
 
     <link rel="stylesheet" href="#" id="colors">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/dropdown.css">
 </head>
 <body>
 <!-- Header -->
@@ -64,6 +65,48 @@
 
 <!-- Main Content -->
 <div class="container mt-5">
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="navbar-collapse">
+            <div class="nav-inner">
+                <ul class="nav main-menu menu navbar-nav">
+                    <li><a th:href="@{/}">Home</a></li>
+
+                    <!-- 루트 카테고리 -->
+                    <li class="dropdown"
+                        th:each="root : ${categorySidebar}"
+                        th:if="${!root.status}">
+
+                        <!-- 루트 링크 (현재 선택이면 볼드) -->
+                        <a th:href="@{/book-categories(categoryId=${root.id})}"
+                           th:text="${root.name}"
+                           th:classappend="${#ctx.containsVariable('categoryId')} and (root.id == categoryId) ? ' active-cat' : ''">
+                        </a>
+
+                        <!-- 루트의 직계 자식 드롭다운 -->
+                        <ul class="dropdown"
+                            th:if="${root.children != null and !#lists.isEmpty(root.children)}">
+                            <li th:each="child : ${root.children}"
+                                th:if="${!child.status}">
+                                <a th:href="@{/book-categories(categoryId=${child.id})}"
+                                   th:text="${child.name}"
+                                   th:classappend="${#ctx.containsVariable('categoryId')} and (child.id == categoryId) ? ' active-cat' : ''">
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <style>
+        .main-menu .active-cat { font-weight: 700; }
+    </style>
+
+
+    <!--/ End Main Menu -->
+
     <h1 class="mb-4">카테고리별 도서</h1>
 
     <!-- Book List Table -->

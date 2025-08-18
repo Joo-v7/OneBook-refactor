@@ -11,7 +11,9 @@ import com.nhnacademy.taskapi.book.repository.BookRepository;
 import com.nhnacademy.taskapi.book.service.BookCategoryService;
 import com.nhnacademy.taskapi.book.service.BookService;
 import com.nhnacademy.taskapi.category.domain.Category;
+import com.nhnacademy.taskapi.category.dto.CategoryResponseDto;
 import com.nhnacademy.taskapi.category.exception.CategoryNotFoundException;
+import com.nhnacademy.taskapi.category.repository.CategoryClosureRepository;
 import com.nhnacademy.taskapi.category.repository.CategoryRepository;
 import com.nhnacademy.taskapi.book.dto.BookCategorySaveDTO;
 import com.nhnacademy.taskapi.category.service.CategoryService;
@@ -22,7 +24,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +35,7 @@ public class BookCategoryServiceImpl implements BookCategoryService {
     private final BookCategoryRepository bookCategoryRepository;
     private final BookRepository bookRepository;
     private final CategoryRepository categoryRepository;
+    private final CategoryClosureRepository categoryClosureRepository;
 
     @Transactional
     @Override
@@ -66,5 +71,41 @@ public class BookCategoryServiceImpl implements BookCategoryService {
     @Override
     public BookCategory getBookCategoryByBookId(long bookId) {
         return bookCategoryRepository.findByBook_bookId(bookId);
+    }
+
+    // 카테고리 사이드 바
+    @Override
+    public CategoryResponseDto getSideBarCategory(int selectedCategoryId) {
+        // 선택한 카테고리의 직계(루트의 자식) 찾기
+        Integer anchorId = categoryClosureRepository.findTopChildAncestorId(selectedCategoryId);
+
+        if (anchorId == null) {
+            anchorId = selectedCategoryId;
+        }
+
+        // 찾은 직계의 서브 트리 가져오기
+        List<Category> flat = categoryClosureRepository.findSubtree(anchorId);
+        Map<Integer, List<Category>> byParent = flat.stream()
+                .filter(c -> c.getParentCategory() != null)
+                .collect(Collectors.groupingBy(c -> c.getParentCategory().getCategoryId()));
+
+        Integer finalAnchorId = anchorId;
+        Category anchor = flat.stream()
+                .filter(c -> c.getCategoryId() == finalAnchorId)
+                .findFirst().orElseThrow();
+
+        return toDtoTree(anchor, byParent);
+    }
+
+    private CategoryResponseDto toDtoTree(Category c, Map<Integer, List<Category>> byParent) {
+        List<Category> children = byParent.getOrDefault(c.getCategoryId(), List.of());
+        return new CategoryResponseDto(
+                c.getCategoryId(),
+                c.getName(),
+                c.isStatus(),
+                children.stream()
+                        .map(ch -> toDtoTree(ch, byParent))
+                        .collect(Collectors.toList())
+        );
     }
 }
