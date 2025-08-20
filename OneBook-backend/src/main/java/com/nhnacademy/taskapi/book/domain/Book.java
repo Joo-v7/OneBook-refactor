@@ -27,7 +27,7 @@ public class Book {
 
 
     // 출판사 - 책 단방향 다대일
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "publisher_id", nullable = false)
     private Publisher publisher;
 
