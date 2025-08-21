@@ -29,6 +29,12 @@ import java.util.List;
 public class BookController {
     private final BookService bookService;
 
+    /**
+     * 도서 등록
+     * @param dto
+     * @param image
+     * @return 등록된 도서 리턴
+     */
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Book> addBook(@RequestPart(value = "dto") BookSaveDTO dto,
                                         @RequestPart(value = "image") MultipartFile image){
@@ -45,8 +51,8 @@ public class BookController {
     @DeleteMapping("{bookId}")
     public ResponseEntity<Void> deleteBook(@PathVariable long bookId){
         bookService.deleteBook(bookId);
-        return ResponseEntity.noContent().build();    }
-
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping("/bestsellers")
     public ResponseEntity<Page<Book>> bestsellersBook(Pageable pageable){

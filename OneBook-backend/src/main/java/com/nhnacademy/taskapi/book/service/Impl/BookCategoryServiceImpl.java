@@ -3,6 +3,7 @@ package com.nhnacademy.taskapi.book.service.Impl;
 
 import com.nhnacademy.taskapi.book.domain.Book;
 import com.nhnacademy.taskapi.book.domain.BookCategory;
+import com.nhnacademy.taskapi.book.dto.BookListItemDTO;
 import com.nhnacademy.taskapi.book.exception.BookCategoryDuplicateException;
 import com.nhnacademy.taskapi.book.exception.BookCategoryNotFoundException;
 import com.nhnacademy.taskapi.book.exception.BookNotFoundException;
@@ -19,13 +20,12 @@ import com.nhnacademy.taskapi.book.dto.BookCategorySaveDTO;
 import com.nhnacademy.taskapi.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,6 +58,12 @@ public class BookCategoryServiceImpl implements BookCategoryService {
         return bookCategoryRepository.save(bookCategory);
     }
 
+    /**
+     * 카테고리 별 도서 목록 조회
+     * @param categoryId
+     * @param pageable
+     * @return
+     */
     @Override
     public Page<BookCategory> getBookByCategory(int categoryId, Pageable pageable) {
         Page<BookCategory> list = bookCategoryRepository.findAllByCategory_CategoryIdOrderByBook_AmountDesc(categoryId, pageable);
@@ -66,6 +72,17 @@ public class BookCategoryServiceImpl implements BookCategoryService {
         }
 
         return list;
+    }
+
+    /**
+     * 리팩토링 - 카테고리 별 도서 목록 조회
+     * @param categoryId
+     * @param pageable
+     * @return Page<BookListItemDTO>
+     */
+    @Override
+    public Page<BookListItemDTO> getBookList(int categoryId, Pageable pageable) {
+        return bookCategoryRepository.findBookList(categoryId, pageable);
     }
 
     @Override

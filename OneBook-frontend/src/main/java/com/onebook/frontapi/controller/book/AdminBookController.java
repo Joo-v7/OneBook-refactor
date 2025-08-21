@@ -71,21 +71,6 @@ public class AdminBookController {
         AuthorDTO author = authorService.getAuthor(authorId);
         PublisherDTO publisher = publisherService.getById(publisherId);
         TagResponse tag = tagService.getTag(tagId);
-        log.info("title: {}", title);
-        log.info("content: {}", content);
-        log.info("pubdate: {}", pubdate);
-        log.info("description: {}", description);
-        log.info("isbn13: {}", isbn13);
-        log.info("priceSales: {}", priceSales);
-        log.info("price: {}", price);
-        log.info("stock: {}", stock);
-        log.info("authorId: {}", author.getAuthorId());
-        log.info("publisherId: {}", publisher.getPublisherId());
-        log.info("tagId: {}", tag.tagId());
-        log.info("categoriesId: {}", categoriesId);
-        log.info("image: {}", image.getOriginalFilename());
-
-
 
         BookSaveDTO dto = new BookSaveDTO();
         dto.setTitle(title);

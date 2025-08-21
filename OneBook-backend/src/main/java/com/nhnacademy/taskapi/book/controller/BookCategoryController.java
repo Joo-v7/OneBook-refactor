@@ -2,6 +2,7 @@ package com.nhnacademy.taskapi.book.controller;
 
 import com.nhnacademy.taskapi.book.domain.BookCategory;
 import com.nhnacademy.taskapi.book.dto.BookCategorySaveDTO;
+import com.nhnacademy.taskapi.book.dto.BookListItemDTO;
 import com.nhnacademy.taskapi.book.service.BookCategoryService;
 import com.nhnacademy.taskapi.category.dto.CategoryResponseDto;
 import com.nhnacademy.taskapi.category.service.CategoryClosureService;
@@ -39,6 +40,18 @@ public class BookCategoryController {
     public ResponseEntity<Page<BookCategory>> getAllBookCategories(@RequestParam int categoryId, Pageable pageable) {
         Page<BookCategory> bookCategories = bookCategoryService.getBookByCategory(categoryId, pageable);
         return ResponseEntity.ok().body(bookCategories);
+    }
+
+    /**
+     * 리팩토링 - 카테고리 별 도서 목록 조회
+     * @param categoryId
+     * @param pageable
+     * @return Page<BookListItemDTO>
+     */
+    @GetMapping("/re")
+    public ResponseEntity<Page<BookListItemDTO>> getBookList(@RequestParam int categoryId, Pageable pageable) {
+        Page<BookListItemDTO> bookListItemDTOS = bookCategoryService.getBookList(categoryId, pageable);
+        return ResponseEntity.ok().body(bookListItemDTOS);
     }
 
     @GetMapping("{bookid}")

@@ -2,6 +2,7 @@ package com.nhnacademy.taskapi.book.service;
 
 import com.nhnacademy.taskapi.book.domain.BookCategory;
 import com.nhnacademy.taskapi.book.dto.BookCategorySaveDTO;
+import com.nhnacademy.taskapi.book.dto.BookListItemDTO;
 import com.nhnacademy.taskapi.category.domain.Category;
 import com.nhnacademy.taskapi.category.dto.CategoryResponseDto;
 import org.springframework.data.domain.Page;
@@ -14,4 +15,5 @@ public interface BookCategoryService {
     Page<BookCategory> getBookByCategory(int categoryId, Pageable pageable);
     BookCategory getBookCategoryByBookId(long bookId);
     CategoryResponseDto getSideBarCategory(int selectedCategoryId);
+    Page<BookListItemDTO> getBookList(int categoryId, Pageable pageable);
 }

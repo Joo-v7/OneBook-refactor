@@ -1,6 +1,7 @@
 package com.nhnacademy.taskapi.book.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nhnacademy.taskapi.category.domain.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class BookCategory {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "category_id", nullable = false)
+    @JsonIgnoreProperties({"parentCategory","childrenCategory"})
     private Category category;
 
 

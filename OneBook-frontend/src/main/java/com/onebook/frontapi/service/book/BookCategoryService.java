@@ -15,6 +15,7 @@ import java.util.List;
 public class BookCategoryService {
     private final BookCategoryClient bookCategoryClient;
 
+    // 카테고리 별 도서 목록 조회
     public Page<BookCategoryDTO> getAllBookCategories(int categoryId, Pageable pageable) {
         return bookCategoryClient.getAllBookCategories(categoryId, pageable);
     }

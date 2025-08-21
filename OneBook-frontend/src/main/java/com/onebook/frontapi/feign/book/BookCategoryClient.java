@@ -15,6 +15,7 @@ import java.util.List;
 @FeignClient(name = "bookCategoryClient", url = "${onebook.gatewayUrl}")
 public interface BookCategoryClient {
 
+    // 카테고리 별 도서 목록 조회
     @GetMapping("/task/book/category")
     Page<BookCategoryDTO> getAllBookCategories(@RequestParam int categoryId, Pageable pageable);
 

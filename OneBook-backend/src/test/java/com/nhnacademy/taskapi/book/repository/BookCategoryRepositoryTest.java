@@ -11,6 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -71,6 +74,65 @@ public class BookCategoryRepositoryTest {
         assertThat(result).isNotNull();
         assertThat(result.getBook().getTitle()).isEqualTo("Test Book");
         assertThat(result.getCategory().getName()).isEqualTo("Fiction");
+    }
+
+    @Test
+    void Test_findAllByCategory_CategoryIdOrderByBook_AmountDesc() {
+        Publisher publisher = new Publisher();
+        publisher.setName("test");
+        publisherRepository.save(publisher);
+        // Given
+        Book book = new Book();
+        book.setTitle("Test Book");
+        book.setContent("Test Content");
+        book.setDescription("Test Description");
+        book.setIsbn13("978-1-234-56789-0");
+        book.setPrice(1000);
+        book.setSalePrice(800);
+        book.setAmount(100);
+        book.setPublisher(publisher);
+        book.setViews(0);
+        book.setPubdate(java.time.LocalDate.of(2023, 1, 1));
+        bookRepository.save(book);
+
+        Category category = new Category();
+        category.setName("Fiction");
+        category.setParentCategory(null);
+
+        Category savedCategory = categoryRepository.save(category);
+
+        BookCategory bookCategory = new BookCategory();
+        bookCategory.setBook(book);
+        bookCategory.setCategory(category);
+
+        // Save BookCategory
+        bookCategoryRepository.save(bookCategory);
+
+        // second book save
+        Book book2 = new Book();
+        book2.setTitle("Test Book2");
+        book2.setContent("Test Content2");
+        book2.setDescription("Test Description2");
+        book2.setIsbn13("978-1-234-56789-0");
+        book2.setPrice(1000);
+        book2.setSalePrice(800);
+        book2.setAmount(100);
+        book2.setPublisher(publisher);
+        book2.setViews(0);
+        book2.setPubdate(java.time.LocalDate.of(2023, 1, 1));
+        bookRepository.save(book2);
+
+        Pageable pageable = PageRequest.of(0, 10);
+
+        BookCategory bookCategory2 = new BookCategory();
+        bookCategory2.setBook(book);
+        bookCategory2.setCategory(category);
+
+        // Save BookCategory
+        bookCategoryRepository.save(bookCategory2);
+
+        // When
+        Page<BookCategory> pagedBookCategory = bookCategoryRepository.findAllByCategory_CategoryIdOrderByBook_AmountDesc(savedCategory.getCategoryId(), pageable);
     }
 
 //    @Test
