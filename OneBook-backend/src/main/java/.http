@@ -48,7 +48,18 @@ Content-Type: application/json
 GET http://localhost:8500/task/categories/closure/tree/15
 Content-Type: application/json
 
-### [READ] 카테고리 사이드바 조회
-GET http://localhost:8500/task/book/category/book-categories/sidebar/171
+### [READ] 리팩토링: 카테고리 사이드바 조회
+GET http://localhost:8500/task/book/category/book-categories/sidebar/310
 Content-Type: application/json
 
+### [READ] 카테고리 별 도서 조회
+GET http://localhost:8500/task/book/category?categoryId=3&page=0&size=20
+Accept: application/json
+
+### [READ] 리팩토링: 카테고리 별 도서 조회 -> 정렬 X
+GET http://localhost:8500/task/book/category/re?categoryId=3&page=0&size=20
+Accept: application/json
+
+### [READ] 리팩토링: 카테고리 별 도서 조회 + 정렬 O
+GET http://localhost:8500/task/book/category/re?categoryId=3&size=20&page=0&sort=book.title,desc
+Accept: application/json
