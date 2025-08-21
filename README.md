@@ -8,5 +8,5 @@
 [헤더 카테고리 캐싱으로 평균 응답시간 0.0536s → 0.0263s (약 50.9% 개선)](https://lightningtech.tistory.com/108)
 
 ## 3. 카테고리별 도서 목록: 인덱스로 평균 응답 31% 개선 (100만 건 기준) (25.08.20)
-[DB 인덱스 적용으로 조회 성능 개선](https://lightningtech.tistory.com/109)
+[DB 인덱스 적용으로 조회 성능 개선 평균 2.06s -> 평균 1.42s](https://lightningtech.tistory.com/109)
 
