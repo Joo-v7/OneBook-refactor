@@ -39,7 +39,7 @@ public class PricePolicyForBook  implements Policy{
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "book_id",nullable = false)
+    @JoinColumn(name = "book_id")
     private Book book;
 
     @ManyToOne
@@ -57,6 +57,21 @@ public class PricePolicyForBook  implements Policy{
         this.description = description;
         this.book = book;
         this.policyStatus = policyStatus;
+    }
+
+    public static PricePolicyForBook birthdayPricePolicyForBook(Integer minimumOrderAmount, Integer discountPrice, LocalDateTime expirationPeriodStart,
+                              LocalDateTime expirationPeriodEnd, String name, String description,
+                              PolicyStatus policyStatus) {
+        return new PricePolicyForBook(
+                minimumOrderAmount,
+                discountPrice,
+                expirationPeriodStart,
+                expirationPeriodEnd,
+                name,
+                description,
+                null,
+                policyStatus
+        );
     }
 
     public static PricePolicyForBook createPricePolicyForBook(AddPricePolicyForBookRequest addPricePolicyForBookRequest,
