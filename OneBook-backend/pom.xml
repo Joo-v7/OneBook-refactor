@@ -183,6 +183,14 @@
             <artifactId>spring-boot-starter-batch</artifactId>
         </dependency>
 
+        <!-- 배치 테스트 의존성 추가 -->
+        <dependency>
+            <groupId>org.springframework.batch</groupId>
+            <artifactId>spring-batch-test</artifactId>
+            <version>5.2.2</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
