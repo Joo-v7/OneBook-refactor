@@ -22,6 +22,7 @@ spring:
     username: root
     password: 20182229
 
+
   # redis
   cache:
     type: redis
@@ -29,6 +30,10 @@ spring:
     redis:
       host: localhost
       port: 6379
+  # batch
+  batch:
+    jdbc:
+      initialize-schema: always
 
 
 
