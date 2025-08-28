@@ -3,7 +3,7 @@ package com.nhnacademy.taskapi.config;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.taskapi.keyManager.dto.KeyResponseDto;
 import com.nhnacademy.taskapi.keyManager.exception.KeyManagerException;
-import com.nhnacademy.taskapi.keyManager.service.KeyFactoryManager;
+//import com.nhnacademy.taskapi.keyManager.service.KeyFactoryManager;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,9 +19,9 @@ import java.util.Objects;
 //@Configuration
 public class CustomDataSourceConfig {
 
-    public CustomDataSourceConfig(KeyFactoryManager keyFactoryManager) {
-//        this.keyFactoryManager = keyFactoryManager;
-    }
+//    public CustomDataSourceConfig(KeyFactoryManager keyFactoryManager) {
+////        this.keyFactoryManager = keyFactoryManager;
+//    }
 
 //    private KeyFactoryManager keyFactoryManager;
     private static final String URL = "jdbc:mysql://%s:%s/%s";

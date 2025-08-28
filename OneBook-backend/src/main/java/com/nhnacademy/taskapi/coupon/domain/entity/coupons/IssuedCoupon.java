@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "coupon_box")
 public class IssuedCoupon {
@@ -40,6 +41,14 @@ public class IssuedCoupon {
     public static IssuedCoupon createIssuedCoupon(Coupon coupon, Member member){
 
         return new IssuedCoupon(coupon,member,LocalDateTime.now());
+    }
+
+    public static IssuedCoupon issue(Coupon coupon, Member member, LocalDateTime issuedAt) {
+        IssuedCoupon issuedCoupon = new IssuedCoupon();
+        issuedCoupon.coupon = coupon;
+        issuedCoupon.member = member;
+        issuedCoupon.issueDateTime = issuedAt;
+        return issuedCoupon;
     }
 
     // TODO 쿠폰이 사용되었을때 , 사용된 시간을 기록해주는 메서드

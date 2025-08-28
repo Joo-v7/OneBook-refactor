@@ -248,6 +248,44 @@ public class CouponService {
         return CouponResponse.changeEntityToDto(welcomeCoupon);
     }
 
+
+    /**
+     * 리팩토링 - 생일 쿠폰 발급 로직
+     * @return
+     */
+    public CouponResponse createBirthdayCoupon(){
+
+        LocalDateTime startDate = LocalDateTime.now();
+        LocalDateTime endDate = startDate.plusDays(30);
+        PolicyStatus policyStatus = policyStatusRepository.findByName("사용됨");
+        CouponStatus couponStatus = couponStatusRepository.findByName("발급-삭제가능");
+        Category category = categoryRepository.findByName("Root 1");
+
+        RatePolicyForCategory ratePolicyForCategory =
+                ratePoliciesForCategoryRepository.save(
+                        new RatePolicyForCategory(
+                                10,
+                                10000,
+                                50000,
+                                startDate,
+                                endDate,
+                                "Birthday Coupon",
+                                "생일인 회원을 대상으로 한 Birthday Coupon 입니다",
+                                category,
+                                policyStatus
+                        )
+                );
+
+
+        Coupon birthdayCoupon = couponRepository.save(Coupon.createRateCouponForCategory(
+                ratePolicyForCategory,
+                couponStatus,
+                startDate
+        ));
+
+        return CouponResponse.changeEntityToDto(birthdayCoupon);
+    }
+
     /**
      * 수정자 : 김선준
      * 수정일 : 2025.01.22(수)

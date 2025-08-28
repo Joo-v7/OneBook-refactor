@@ -2,7 +2,9 @@ package com.nhnacademy.taskapi.coupon.domain.entity.status;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Entity
 @Getter
 public class CouponStatus {
@@ -14,4 +16,7 @@ public class CouponStatus {
     @Column(nullable = false, length = 30)
     private String name;
 
+    public CouponStatus(String issued) {
+        this.name = issued;
+    }
 }
