@@ -87,7 +87,7 @@ class BirthdayCouponBatchConfig extends DefaultBatchConfiguration {
                             5000,
                             monthStart,
                             monthEnd,
-                            now.getDayOfYear() + " Birthday Coupon Price Policy",
+                            now + " Birthday Coupon Price Policy",
                             "생일 쿠폰 정책",
                             policyStatus
                     );
@@ -139,11 +139,12 @@ class BirthdayCouponBatchConfig extends DefaultBatchConfiguration {
     @Bean
     @StepScope
     public ItemProcessor<Member, IssuedCoupon> birthdayIssueProcessor(@Value("#{jobExecutionContext['pricePolicyForBookName']}") String policyName) {
+
+        final CouponStatus couponStatus = couponStatusRepository.findByName("issued");
+        final PricePolicyForBook pricePolicyForBook = pricePoliciesForBookRepository.findByName(policyName);
+
         return member -> {
             // 생일 쿠폰 정책에 따른 생일 쿠폰 생성
-            CouponStatus couponStatus = couponStatusRepository.findByName("issued");
-            PricePolicyForBook pricePolicyForBook = pricePoliciesForBookRepository.findByName(policyName);
-
             Coupon coupon = Coupon.createPriceCouponForBook(
                     pricePolicyForBook,
                     couponStatus,
@@ -160,9 +161,8 @@ class BirthdayCouponBatchConfig extends DefaultBatchConfiguration {
     @Bean
     public ItemWriter<IssuedCoupon> birthdayIssueWriter() {
         return issuedCoupons -> {
-            // 발급된 쿠폰 저장 로직.
+            // 발급된 쿠폰 저장.
             for (IssuedCoupon ic : issuedCoupons) {
-                entityManager.persist(ic.getCoupon());
                 entityManager.persist(ic);
             }
         };

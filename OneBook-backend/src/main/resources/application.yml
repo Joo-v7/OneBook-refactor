@@ -11,7 +11,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -34,6 +34,11 @@ spring:
   batch:
     jdbc:
       initialize-schema: always
+# DB에 배치 스키마 없으면 주석 해제.
+#  sql:
+#    init:
+#      mode: always
+#      schema-locations: classpath:org/springframework/batch/core/schema-mysql.sql
 
 
 

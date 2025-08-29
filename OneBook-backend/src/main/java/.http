@@ -63,3 +63,6 @@ Accept: application/json
 ### [READ] 리팩토링: 카테고리 별 도서 조회 + 정렬 O
 GET http://localhost:8500/task/book/category/re?categoryId=3&size=20&page=0&sort=book.title,desc
 Accept: application/json
+
+### 배치 테스트
+GET http://localhost:8500/batch/test

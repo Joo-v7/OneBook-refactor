@@ -26,12 +26,12 @@ public class Member {
     private Long id;
 
     @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="grade_id", nullable=false)
     private Grade grade;
 
     @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="role_id", nullable=false)
     private Role role;
 
